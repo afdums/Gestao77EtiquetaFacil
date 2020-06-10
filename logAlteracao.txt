@@ -1,0 +1,9 @@
+Log Etiqueta: XJ2E6263017ZN 
+
+Usuario: anderson
+Data: Tue Jun 06 21:02:46 BRT 2017
+Alteração: Alteracao : model.Etiqueta@5e85803eUsuario: anderson
+Data: Tue Jun 06 21:05:05 BRT 2017
+Alteração: Alteracao : Etiqueta{id=198, idLayout=7, idEmitente=1, conteudo=4143024;XJ2E6263017ZN;20/12/16, chaveUnica=XJ2E6263017ZN, situacao=2}
+
+Fim do log, gerado em: Tue Jun 06 21:15:11 BRT 2017
