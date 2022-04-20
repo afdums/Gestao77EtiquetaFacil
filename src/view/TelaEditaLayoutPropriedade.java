@@ -256,7 +256,7 @@ public class TelaEditaLayoutPropriedade extends javax.swing.JDialog {
         LayoutPropriedadeDAO layoutPropriedadeDAO = new LayoutPropriedadeDAO();
         if(novo == true){
             System.out.println("NOVO PROPRIEDADE LAYOUT");
-            layoutPropriedade = new LayoutPropriedade(idLayout, textPropriedade.getText(), comboOrigem.getSelectedIndex(), Integer.parseInt(textColuna.getText()), selectChaveUnica.isSelected());
+            layoutPropriedade = new LayoutPropriedade(idLayout, textPropriedade.getText(), comboOrigem.getSelectedIndex(), Integer.parseInt(textColuna.getText()), selectChaveUnica.isSelected(), 0, 0);
             layoutPropriedadeDAO.insert(layoutPropriedade);
         }else{
             layoutPropriedade.setOrigem(comboOrigem.getSelectedIndex());

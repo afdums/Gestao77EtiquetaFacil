@@ -357,14 +357,23 @@ public class TelaEditaLayout extends javax.swing.JDialog {
             int achou = 0;
             for(int i = 0; i < propriedades.size(); i++){
                 achou = 0;
-                for(int x = 0; x < propriedadesAux.size(); x++){
-                    if(propriedades.get(i).getPropriedade().equals(propriedadesAux.get(x).getPropriedade())){
-                        achou = 1;
-                        x = propriedadesAux.size();
+                
+                System.out.println("Existe: " + propriedades.get(i).getPropriedade());
+                
+                if(propriedades.get(i).getMantem() == 0) {
+                
+                    for(int x = 0; x < propriedadesAux.size(); x++){
+                        if(propriedades.get(i).getPropriedade().equals(propriedadesAux.get(x).getPropriedade())){
+                            achou = 1;
+                            System.out.println("achou");
+                            x = propriedadesAux.size();
+                        }
                     }
-                }
-                if(achou == 0){
-                    propriedades.remove(i);
+                    if(achou == 0){
+                        System.out.println("nao achou");
+                        propriedades.remove(i);
+                    }
+                    
                 }
                 
             }
@@ -378,8 +387,10 @@ public class TelaEditaLayout extends javax.swing.JDialog {
                     }
                 }
                 if(achou == 0){
-                    System.out.println("Adicionando: " + propriedadesAux.get(i).getPropriedade());
-                    propriedades.add(propriedadesAux.get(i));
+                    if(propriedadesAux.get(i).getMantem() != 1) {
+                        System.out.println("Adicionando: " + propriedadesAux.get(i).getPropriedade());
+                        propriedades.add(propriedadesAux.get(i));
+                    }
                 }
             }
             
@@ -506,6 +517,9 @@ public class TelaEditaLayout extends javax.swing.JDialog {
         
         if(propriedades != null){
             for(int i = 0; i < propriedades.size(); i++){
+                
+                System.out.println("Incluindo na tela: " + propriedades.get(i).getPropriedade());
+                
                 modeloTable.addRow(new Object[] {
                     i,
                     propriedades.get(i).getPropriedade(),

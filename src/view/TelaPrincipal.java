@@ -63,6 +63,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
     public void habilitaMenu(boolean habilita){
         menuTarefas.setEnabled(habilita);
         menuCadastros.setEnabled(habilita);
+        menuConsultas.setEnabled(habilita);
     }
 
     /**
@@ -87,7 +88,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         imprimirEtiquetasCaixa = new javax.swing.JMenuItem();
         menuAbrirCaixa = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
-        jMenu1 = new javax.swing.JMenu();
+        menuConsultas = new javax.swing.JMenu();
         menuConsultaEtiqueta = new javax.swing.JMenuItem();
         menuOpcoes = new javax.swing.JMenu();
         menuBanco = new javax.swing.JMenuItem();
@@ -109,7 +110,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
         setTitle("Gestão77");
         setResizable(false);
 
-        menuBar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        menuBar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
         menuCadastros.setText("Cadastros");
 
@@ -183,7 +184,7 @@ public class TelaPrincipal extends javax.swing.JFrame {
 
         menuBar.add(menuTarefas);
 
-        jMenu1.setText("Consultas");
+        menuConsultas.setText("Consultas");
 
         menuConsultaEtiqueta.setText("Histórico Etiqueta");
         menuConsultaEtiqueta.addActionListener(new java.awt.event.ActionListener() {
@@ -191,9 +192,9 @@ public class TelaPrincipal extends javax.swing.JFrame {
                 menuConsultaEtiquetaActionPerformed(evt);
             }
         });
-        jMenu1.add(menuConsultaEtiqueta);
+        menuConsultas.add(menuConsultaEtiqueta);
 
-        menuBar.add(jMenu1);
+        menuBar.add(menuConsultas);
 
         menuOpcoes.setText("Opções");
 
@@ -413,13 +414,13 @@ public class TelaPrincipal extends javax.swing.JFrame {
     private javax.swing.JMenuItem imprimirEtiquetasIndividuais;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLayeredPane jLayeredPane1;
-    private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem menuAbrirCaixa;
     private javax.swing.JMenuItem menuBanco;
     private javax.swing.JMenuBar menuBar;
     private javax.swing.JMenu menuCadastros;
     private javax.swing.JMenuItem menuConsultaEtiqueta;
+    private javax.swing.JMenu menuConsultas;
     private javax.swing.JMenuItem menuLogin;
     private javax.swing.JMenuItem menuLogout;
     private javax.swing.JMenu menuOpcoes;

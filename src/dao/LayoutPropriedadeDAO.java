@@ -35,12 +35,14 @@ public class LayoutPropriedadeDAO {
             PreparedStatement p = conexao().prepareStatement("insert into layoutpropriedade "
                     + "(idLayout, propriedade, "
                     + "origem, coluna, "
-                    + "chaveUnica) values (?,?,?,?,?)");
+                    + "chaveUnica, mantem, incremental) values (?,?,?,?,?,?,?)");
             p.setInt(1, layoutPropriedade.getIdLayout());
             p.setString(2, layoutPropriedade.getPropriedade());
             p.setInt(3, layoutPropriedade.getOrigem());
             p.setInt(4, layoutPropriedade.getColuna());
             p.setBoolean(5, layoutPropriedade.isChaveUnica());
+            p.setInt(6, layoutPropriedade.getMantem());
+            p.setInt(7, layoutPropriedade.getIncremental());
 
             p.executeUpdate();
             p.close();
@@ -76,14 +78,18 @@ public class LayoutPropriedadeDAO {
                                                                 + "propriedade = ?, "
                                                                 + "origem = ?, "
                                                                 + "coluna = ?, "
-                                                                + "chaveUnica = ? "
+                                                                + "chaveUnica = ?, "
+                                                                + "mantem = ? ,"
+                                                                + "incremental = ? "
                                                                 + "where idlayoutpropriedade = ?");
             p.setInt(1, layoutPropriedade.getIdLayout());
             p.setString(2, layoutPropriedade.getPropriedade());
             p.setInt(3, layoutPropriedade.getOrigem());
             p.setInt(4, layoutPropriedade.getColuna());
             p.setBoolean(5, layoutPropriedade.isChaveUnica());
-            p.setInt(6, layoutPropriedade.getId());
+            p.setInt(6, layoutPropriedade.getMantem());
+            p.setInt(7, layoutPropriedade.getIncremental());
+            p.setInt(8, layoutPropriedade.getId());
             p.executeUpdate();
             p.close();
             fecha();
@@ -106,7 +112,9 @@ public class LayoutPropriedadeDAO {
                 layoutPropriedade.setPropriedade(rs.getString("propriedade"));
                 layoutPropriedade.setOrigem(rs.getInt("origem"));
                 layoutPropriedade.setColuna(rs.getInt("coluna"));
-                layoutPropriedade.setChaveUnica(rs.getBoolean("chaveUnica"));                                
+                layoutPropriedade.setChaveUnica(rs.getBoolean("chaveUnica"));    
+                layoutPropriedade.setMantem(rs.getInt("mantem"));
+                layoutPropriedade.setIncremental(rs.getInt("incremental"));
             }
             rs.close();
             p.close();
@@ -135,6 +143,8 @@ public class LayoutPropriedadeDAO {
                 layoutPropriedade.setOrigem(rs.getInt("origem"));
                 layoutPropriedade.setColuna(rs.getInt("coluna"));
                 layoutPropriedade.setChaveUnica(rs.getBoolean("chaveUnica"));                                
+                layoutPropriedade.setMantem(rs.getInt("mantem"));
+                layoutPropriedade.setIncremental(rs.getInt("incremental"));
                 layoutPropriedades.add(layoutPropriedade);
             }
             rs.close();

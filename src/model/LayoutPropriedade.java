@@ -19,16 +19,20 @@ public class LayoutPropriedade {
     int origem; // 0-Tabela / 1-Tela / 2-Arquivo
     int coluna; // Se do arquivo, qual coluna popula  
     boolean chaveUnica = false;
+    int mantem;
+    int incremental;
 
     public LayoutPropriedade() {
     }
 
-    public LayoutPropriedade(int idLayout, String propriedade, int origem, int coluna, boolean chaveUnica) {
+    public LayoutPropriedade(int idLayout, String propriedade, int origem, int coluna, boolean chaveUnica, int mantem, int incremental) {
         this.idLayout = idLayout;
         this.propriedade = propriedade;
         this.origem = origem;
         this.coluna = coluna;
         this.chaveUnica = chaveUnica;
+        this.mantem = mantem;
+        this.incremental = incremental;
     }
 
     public LayoutPropriedade(String propriedade) {
@@ -117,6 +121,24 @@ public class LayoutPropriedade {
     public void setChaveUnica(boolean chaveUnica) {
         this.chaveUnica = chaveUnica;
     }        
+    
+    public int getMantem() {
+        return this.mantem;
+    }
+    
+    public void setMantem(int mantem) {
+        this.mantem = mantem;
+    }
+    
+    public int getIncremental() {
+        return this.incremental;
+    }
+    
+    public void setIncremental(int incremental) {
+        this.incremental = incremental;
+    }
+    
+    
     
     public int validaOrigem(){
         

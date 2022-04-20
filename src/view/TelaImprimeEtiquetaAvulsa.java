@@ -145,6 +145,7 @@ public class TelaImprimeEtiquetaAvulsa extends javax.swing.JDialog {
         comboLayout = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
+        imprimirArquivo = new javax.swing.JCheckBox();
 
         setTitle("Gestão77 - Edição de Propriedades de Etiquetas");
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -215,6 +216,8 @@ public class TelaImprimeEtiquetaAvulsa extends javax.swing.JDialog {
 
         jLabel1.setText("Cliente:");
 
+        imprimirArquivo.setText("Imprimir em Arquivo");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -222,7 +225,9 @@ public class TelaImprimeEtiquetaAvulsa extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addContainerGap(305, Short.MAX_VALUE)
+                        .addContainerGap()
+                        .addComponent(imprimirArquivo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(buttonSalvar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cancelButton))
@@ -237,7 +242,7 @@ public class TelaImprimeEtiquetaAvulsa extends javax.swing.JDialog {
                             .addComponent(comboLayout, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 447, Short.MAX_VALUE)))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 457, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -256,7 +261,8 @@ public class TelaImprimeEtiquetaAvulsa extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(buttonSalvar)
-                    .addComponent(cancelButton))
+                    .addComponent(cancelButton)
+                    .addComponent(imprimirArquivo))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -285,8 +291,8 @@ public class TelaImprimeEtiquetaAvulsa extends javax.swing.JDialog {
         EtiquetaController etiquetaController = new EtiquetaController();
         
         if(layout != null){
-            etiquetaController.imprimeEtiquetaAvulsa(layout, propriedadesAvulsa);
-            JOptionPane.showMessageDialog(null, "Impressão finalizada", "Erro", JOptionPane.INFORMATION_MESSAGE);
+            String retorno = etiquetaController.imprimeEtiquetaAvulsa(layout, propriedadesAvulsa, imprimirArquivo.isSelected());
+            JOptionPane.showMessageDialog(null, "Impressão finalizada\n" + retorno, "Sucesso", JOptionPane.INFORMATION_MESSAGE);
         }else{
             JOptionPane.showMessageDialog(null, "Layout não foi selecionado", "Erro", JOptionPane.ERROR_MESSAGE);
         }
@@ -552,6 +558,7 @@ public class TelaImprimeEtiquetaAvulsa extends javax.swing.JDialog {
     private javax.swing.JButton cancelButton;
     private javax.swing.JComboBox<String> comboEmitente;
     private javax.swing.JComboBox<String> comboLayout;
+    private javax.swing.JCheckBox imprimirArquivo;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;

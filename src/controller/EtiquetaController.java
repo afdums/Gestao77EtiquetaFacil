@@ -5,6 +5,7 @@
  */
 package controller;
 
+import dao.ContadorPropriedadeDAO;
 import dao.EtiquetaCaixaDAO;
 import dao.EtiquetaDAO;
 import dao.EtiquetaPropriedadeDAO;
@@ -20,10 +21,12 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+import model.ContadorPropriedade;
 import model.Etiqueta;
 import model.EtiquetaCaixa;
 import model.EtiquetaPropriedade;
@@ -235,32 +238,117 @@ public class EtiquetaController {
         }
     }
 
-    public void imprimeEtiquetaAvulsa(Layout layout, List<PropriedadeAvulsa> propriedadesAvulsa) {
+    public String imprimeEtiquetaAvulsa(Layout layout, List<PropriedadeAvulsa> propriedadesAvulsa, boolean imprimirArquivo) {
         
-
+        String retorno = "";
+        int volumes = 1;
+        String ordem = "";
+        Integer sequencial = 0;
+        String barCode = "";
+        String ano = "9999";
+        String semana = "99";
+        
+        Calendar calendario = Calendar.getInstance();
+        
+        ContadorPropriedade contadorPropriedade= new ContadorPropriedade();
+        ContadorPropriedadeDAO contadorPropriedadeDAO = new ContadorPropriedadeDAO();
+        
+        ano = String.format("%04d", calendario.get(Calendar.YEAR)).substring(2, 4);
+        semana = String.format("%02d", calendario.get(Calendar.WEEK_OF_YEAR));
+        
         try {
-
-            /*FileWriter fileWriter = new FileWriter("c:/temp/etiquetaAvulsa.txt", false);
-            BufferedWriter bufferedWriter = new BufferedWriter(fileWriter);*/
-            FileOutputStream fos = new FileOutputStream(layout.getImpressora());
-            PrintWriter ps = new PrintWriter(fos);
-
-            String fonteEtiqueta = layout.getFonteLayout();
-
-            for (PropriedadeAvulsa propriedadeAvulsa : propriedadesAvulsa) {
-                fonteEtiqueta = fonteEtiqueta.replace(propriedadeAvulsa.getPropriedade(), propriedadeAvulsa.getConteudo());
-            }
-
-            ps.print(fonteEtiqueta);
-            ps.close();
             
-            /*bufferedWriter.write(fonteEtiqueta);            
-            bufferedWriter.close();
-            fileWriter.close();*/
+            
+            
+            for (PropriedadeAvulsa propriedadeAvulsa : propriedadesAvulsa) {
+                try {
+                    if(propriedadeAvulsa.getPropriedade().equals("#ordem")) {
+                        ordem = propriedadeAvulsa.getConteudo().substring(0,6);
+                        
+                        contadorPropriedade = contadorPropriedadeDAO.selectWherePropriedade(layout.getId(), propriedadeAvulsa.getPropriedade(), ordem);
+                        if(contadorPropriedade == null){
+                            System.out.println("criar novo contador");
+                            contadorPropriedade = new ContadorPropriedade(layout.getId(), propriedadeAvulsa.getPropriedade(), ordem);
+                            contadorPropriedadeDAO.insert(contadorPropriedade);
+                            contadorPropriedade = contadorPropriedadeDAO.selectWherePropriedade(layout.getId(), propriedadeAvulsa.getPropriedade(), ordem);
+                            sequencial = 0;
+                        } else {
+                            sequencial = contadorPropriedade.getContador();
+                        }                        
+                    }
+                    if(propriedadeAvulsa.getPropriedade().equals("#volumes")) {
+                        volumes = Integer.parseInt(propriedadeAvulsa.getConteudo());
+                    }
+                    
+                } catch (Exception e) {
+                    volumes = 1;                    
+                }
+                
+            }
+            
+            System.out.println("Ordem: " + ordem);
+            System.out.println("Contador: " + sequencial);
+            System.out.println("Volumes: " + volumes);
+            
+            for(int i = 0; i < volumes; i++) {
+                
+                FileWriter fileWriter = null;
+                BufferedWriter bufferedWriter = null;
+                FileOutputStream fos = null;
+                PrintWriter ps = null;
+                String arquivoTemp = "";
+                
+                for (PropriedadeAvulsa propriedadeAvulsa : propriedadesAvulsa) {
+                    
+                    if(propriedadeAvulsa.getPropriedade().startsWith("#bar_code_")){
+                        sequencial ++;
+                        barCode = "3284" + ano + semana + ordem + String.format("%04d",sequencial);
+                        propriedadeAvulsa.setConteudo(barCode);
+                    }
+                    
+                }
+
+                if(imprimirArquivo) {
+                    arquivoTemp = System.getProperty("java.io.tmpdir");
+                    arquivoTemp += ordem + "-" + ano + "-" + semana + "-" + String.format("%04d",sequencial) + ".txt";
+                    fileWriter = new FileWriter(arquivoTemp, false);
+                    bufferedWriter = new BufferedWriter(fileWriter);  
+                } else {
+                    fos = new FileOutputStream(layout.getImpressora());
+                    ps = new PrintWriter(fos);
+                }
+
+
+                String fonteEtiqueta = layout.getFonteLayout();
+
+                for (PropriedadeAvulsa propriedadeAvulsa : propriedadesAvulsa) {
+                    System.out.println("Propriedade: " + propriedadeAvulsa.getPropriedade() + ": " + propriedadeAvulsa.getConteudo());
+                    fonteEtiqueta = fonteEtiqueta.replace(propriedadeAvulsa.getPropriedade(), propriedadeAvulsa.getConteudo());
+                }
+
+                if(imprimirArquivo) {
+                    bufferedWriter.write(fonteEtiqueta);            
+                    bufferedWriter.close();
+                    fileWriter.close();
+                    retorno = "Salvo em " + arquivoTemp;
+                } else {
+                    ps.print(fonteEtiqueta);
+                    ps.close();
+                    retorno = "Sucesso";
+                }
+                
+                contadorPropriedade.setContador(sequencial);
+                contadorPropriedadeDAO.update(contadorPropriedade);
+                
+            }
+            
         } catch (Exception e) {
             System.out.println("Erro imprime avulsa");
             e.printStackTrace();
-        }        
+            retorno = e.toString();
+        }
+        
+        return retorno;
         
     }
     
