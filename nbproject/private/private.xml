@@ -3,10 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/X:/Gestao77EtiquetaFacil/src/model/PropriedadeAvulsa.java</file>
-            <file>file:/X:/Gestao77EtiquetaFacil/src/dao/ContadorPropriedadeDAO.java</file>
+            <file>file:/X:/Gestao77EtiquetaFacil/src/view/TelaImprimeEtiquetaIndividual.java</file>
             <file>file:/X:/Gestao77EtiquetaFacil/src/view/TelaImprimeEtiquetaAvulsa.java</file>
-            <file>file:/X:/Gestao77EtiquetaFacil/src/model/ContadorPropriedade.java</file>
             <file>file:/X:/Gestao77EtiquetaFacil/src/controller/EtiquetaController.java</file>
         </group>
     </open-files>

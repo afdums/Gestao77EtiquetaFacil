@@ -263,7 +263,14 @@ public class EtiquetaController {
             for (PropriedadeAvulsa propriedadeAvulsa : propriedadesAvulsa) {
                 try {
                     if(propriedadeAvulsa.getPropriedade().equals("#ordem")) {
-                        ordem = propriedadeAvulsa.getConteudo().substring(0,6);
+                        ordem = propriedadeAvulsa.getConteudo();
+                        
+                        while(ordem.length() < 6)
+                            ordem = "0" + ordem;
+                        
+                        ordem = ordem.substring(0,6);
+                        
+                        //System.out.println(ordem + "tamanho: " + ordem.length());
                         
                         contadorPropriedade = contadorPropriedadeDAO.selectWherePropriedade(layout.getId(), propriedadeAvulsa.getPropriedade(), ordem);
                         if(contadorPropriedade == null){
@@ -302,7 +309,7 @@ public class EtiquetaController {
                     
                     if(propriedadeAvulsa.getPropriedade().startsWith("#bar_code_")){
                         sequencial ++;
-                        barCode = "3284" + ano + semana + ordem + String.format("%04d",sequencial);
+                        barCode = ano + semana + ordem + String.format("%04d",sequencial);
                         propriedadeAvulsa.setConteudo(barCode);
                     }
                     
